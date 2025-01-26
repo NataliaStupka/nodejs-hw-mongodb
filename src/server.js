@@ -4,7 +4,13 @@ import pino from 'pino-http'; //логування
 import cors from 'cors'; //безпека
 
 import { getEnvVar } from './utils/getEnvVar.js'; //зчитування змінних оточення
-import { getContact, getContactById } from './db/services/contacts.js';
+
+//роутер get(/contacts, /contacts/:contactId)
+import contactsRouter from './routers/contacts.js';
+
+// Імпортуємо middleware (помилки)
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 // dotenv.config() - використовує глобальний об'єкт process.env
 
@@ -25,56 +31,11 @@ export const setupServer = () => {
     }),
   );
 
-  //маршрут для GET-запиту (шлях до ресурсу, функція-обробник)
-  // app.get('/contacts', async (req, res) => {
-  //   const contacts = await ContactCollection.find();
-  //   res.json(contacts);
-  //   // res.json({ message: 'Hello Express!' });
-  // });
-
-  //контролер
-  app.get('/contacts', async (req, res) => {
-    try {
-      const contacts = await getContact();
-      // res.json(contacts);
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully found contacts!',
-        data: contacts,
-      });
-    } catch (err) {
-      console.error('Error retrieving contacts', err);
-    }
-  });
-
-  app.get('/contacts/:contactId', async (req, res) => {
-    const contactId = req.params.contactId;
-    const contact = await getContactById(contactId); //??
-
-    if (!contact) {
-      return res.status(404).json({
-        message: 'Contact not found',
-      });
-    }
-
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id: ${contactId}!`,
-      data: contact,
-    });
-  });
+  app.use(contactsRouter); //роутер контролерів get(/contacts, /contacts/:contactId)
 
   //помилки
-  app.use('*', (req, res, next) => {
-    res.status(404).json({ message: 'Not found' });
-  });
-  // Middleware для обробких помилки, яку не було передбачено
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
+  app.use('*', notFoundHandler); //status(404)
+  app.use(errorHandler); //status(500)
 
   const PORT = Number(getEnvVar('PORT', 3000));
   //listen - Запускає сервер

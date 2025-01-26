@@ -1,3 +1,43 @@
+розібратися з помилками, http-errors !!!!!
+
+<!-- 3 module - hw3-crud -->
+
+1.  створюємо folder:
+
+    - routers(/contacts.js); router.get()
+    - controllers(/contacts.js); res.status(200)
+    - middlewares(errorHandler.js , notFoundHandler.js);
+
+2.  організовуємо роутінг:
+
+        - код роутів з src/server.js до файлу src/routers/contacts.js;
+        - код контролерів з src/routers до файлу src/controllers/contacts.js;
+
+3.  Покращення обробки помилок ( http-errors ): npm install http-errors:
+    - src/controllers/students.js;
+    - src/middlewares/errorHandler.js - додаємо можливість працювати з помилками;
+4.  обробки помилок в middleware:
+
+        - errorHandler.js //status(500)
+        - notFoundHandler.js //status(404)
+        - імпортуємо в server
+
+5.  **???? ctrlWrapper.js**
+
+    <!--  -->
+    <!-- Запити, POST, PUT, PATCH, DELETE -->
+
+    **controllers - routers - services**
+
+6.  POST
+    //метод: Model.create(doc) Для створення нового документа
+7.  PATCH
+    //метод: Model.findOneAndUpdate(query, update, options, callback) Для оновлення документа в колекції
+8.  DELETE
+    //метод: Model.findOneAndDelete(filter, options, callback)
+
+<!-- 2 module - hw2-mongodb-->
+
 // node --version
 // node src/index.js
 
@@ -90,14 +130,22 @@
 
 <!-- Файлова структура застосунку -->
 
-- ✅ constants - константі значення нашого застосунку
-- controllers - контролери
-- ✅ db - усе, що повʼязане із базою
-- middlewares - кастомні мідлвари
-- routers - express-роутери, які будуть використані в застосунку
-- ✅ services - основне місце, де ми будемо прописувати логіку
-- templates - шаблони для email
-- ✅ utils - різні функції, які допомагатимуть нам робити певні перетворення чи маніпуляції
-- validation - валідаційні схеми
-- ✅ index.js - файл, з якого буде починатися виконання нашої програми
-- ✅ server.js - файл, де ми опишемо наш express-сервер
+- Файлова структура застосунку:
+  - ✅ constants - константі значення нашого застосунку
+  - ✅ ✅ controllers - контролери
+  - ✅ db - усе, що повʼязане із базою
+  - ✅ ✅ middlewares - кастомні мідлвари
+  - ✅ ✅ routers - express-роутери, які будуть використані в застосунку
+  - ✅ services - основне місце, де ми будемо прописувати логіку
+  - templates - шаблони для email
+  - ✅ utils - різні функції, які допомагатимуть нам робити певні перетворення чи маніпуляції
+  - validation - валідаційні схеми
+  - ✅ index.js - файл, з якого буде починатися виконання нашої програми
+  - ✅ server.js - файл, де ми опишемо наш express-сервер
+
+✅ - створено у 2 модулі
+✅ ✅ - створено у 3 модулі
+
+<!-- POST -->
+
+routers/contact - controllers/contact - services/contact -

@@ -18,6 +18,6 @@ const contactSchema = new Schema(
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt
 );
 export const ContactCollection = model('contacts', contactSchema);
-
+// model(ім'я колекції, схема);
 // createdAt (дата створення)
 // updatedAt (дата оновлення)
