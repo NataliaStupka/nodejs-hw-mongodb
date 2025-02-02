@@ -1,4 +1,23 @@
-розібратися з помилками, http-errors !!!!!
+розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB
+
+<!-- 4 module - hw4-validation -->
+
+1.  Validation:
+    npm i joi
+
+    - схема валідації через joi () - створення/оновлення контакту
+      // src/validation/contact.js
+
+    - Middleware - валідація для роутів
+      // src/middlewares/validateBody.js
+
+      - validateBody(схема) - повертає middleware для валідації body запиту;
+      - isValidId - застосувати її в усіх роутах, які працюють з id студента
+
+    - додати у роути валідацію
+      // src/routers/students.js
+
+2.  Пагінація:
 
 <!-- 3 module - hw3-crud -->
 
@@ -8,32 +27,32 @@
     - controllers(/contacts.js); res.status(200)
     - middlewares(errorHandler.js , notFoundHandler.js);
 
-2.  організовуємо роутінг:
+1.  організовуємо роутінг:
 
         - код роутів з src/server.js до файлу src/routers/contacts.js;
         - код контролерів з src/routers до файлу src/controllers/contacts.js;
 
-3.  Покращення обробки помилок ( http-errors ): npm install http-errors:
+1.  Покращення обробки помилок ( http-errors ): npm install http-errors:
     - src/controllers/students.js;
     - src/middlewares/errorHandler.js - додаємо можливість працювати з помилками;
-4.  обробки помилок в middleware:
+1.  обробки помилок в middleware:
 
         - errorHandler.js //status(500)
         - notFoundHandler.js //status(404)
         - імпортуємо в server
 
-5.  **???? ctrlWrapper.js**
+1.  **???? ctrlWrapper.js**
 
     <!--  -->
     <!-- Запити, POST, PUT, PATCH, DELETE -->
 
     **controllers - routers - services**
 
-6.  POST
+1.  POST
     //метод: Model.create(doc) Для створення нового документа
-7.  PATCH
+1.  PATCH
     //метод: Model.findOneAndUpdate(query, update, options, callback) Для оновлення документа в колекції
-8.  DELETE
+1.  DELETE
     //метод: Model.findOneAndDelete(filter, options, callback)
 
 <!-- 2 module - hw2-mongodb-->
