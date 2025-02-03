@@ -2,7 +2,7 @@
 
 import Joi from 'joi';
 
-//створенні нового студента:
+//створенні нового контакта:
 export const createContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required().messages({
     'string.base': 'Username should be a string', // Кастомізація повідомлення для типу "string"
@@ -10,8 +10,9 @@ export const createContactSchema = Joi.object({
     'string.max': 'Username should have at most {#limit} characters',
     'any.required': 'Username is required',
   }),
-  phoneNumber: Joi.number().integer().min(6).max(16).required(),
-  email: Joi.string().min(3).max(20).required(),
+  //   phoneNumber: Joi.number().integer().min(6).max(16).required(),
+  phoneNumber: Joi.number(),
+  email: Joi.string().min(3).max(20), //.required()
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
 });

@@ -12,4 +12,4 @@ export const isValidId = (req, res, next) => {
   next();
 };
 
-//isValidId застосувати її в усіх роутах, які працюють з id студента
+//isValidId застосувати її в усіх роутах, які працюють з id контакта
