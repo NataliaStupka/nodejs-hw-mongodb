@@ -14,34 +14,31 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
-import { isValidId } from '../middlewares/isValidId.js';
+import { validateMongoId } from '../middlewares/validateMongoId.js';
 
 const router = Router();
 
+router.use('/contacts/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
+
 //контролер у роуті
 router.get('/contacts', ctrlWrapper(getContactsController));
-router.get(
-  '/contacts/:contactId',
-  isValidId,
-  ctrlWrapper(getContactByIdController),
-);
+router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
 
-// POST, PATCH, DELETE
+// POST
 router.post(
   '/contacts',
-  validateBody(createContactSchema),
+  validateBody(createContactSchema), //валідація
   ctrlWrapper(createContactController),
 );
+
+//PATCH - update
 router.patch(
   '/contacts/:contactId',
-  isValidId,
-  validateBody(updateContactSchema),
+  validateBody(updateContactSchema), //валідація
   ctrlWrapper(patchContactController),
 );
-router.delete(
-  '/contacts/:contactId',
-  isValidId,
-  ctrlWrapper(deleteContactController),
-);
+
+//DELETE
+router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
 
 export default router;

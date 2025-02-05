@@ -1,4 +1,5 @@
 //схема контактів
+//
 
 import { Schema, model } from 'mongoose';
 

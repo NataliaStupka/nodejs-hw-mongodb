@@ -3,13 +3,17 @@
 import { isValidObjectId } from 'mongoose';
 import createHttpError from 'http-errors';
 
-export const isValidId = (req, res, next) => {
-  const { studentId } = req.params;
+export const validateMongoId =
+  (name = 'id') =>
+  (req, res, next) => {
+    console.log('????:', req.params);
 
-  if (!isValidObjectId(studentId)) {
-    throw createHttpError(404, 'Bad Request');
-  }
-  next();
-};
+    // const { contactId } = req.params;
+    //якщо не валідний
+    if (!isValidObjectId(req.params[name])) {
+      next(createHttpError(404, `${name} is not a valid MongoId`));
+    }
+    next();
+  };
 
 //isValidId застосувати її в усіх роутах, які працюють з id контакта
