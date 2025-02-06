@@ -2,6 +2,7 @@
 
 //Імпортуємо клас HttpError для обробки помилок HTTP
 import { HttpError } from 'http-errors';
+import { MongooseError } from 'mongoose'; //????
 
 export const errorHandler = (err, req, res, next) => {
   // Перевірка, чи отримали ми помилку від createHttpError
@@ -10,13 +11,24 @@ export const errorHandler = (err, req, res, next) => {
       status: err.status,
       message: err.name,
       data: err,
+      name: err.name, //?
     });
     return;
+  }
+
+  //???? однакове з рядок 28??
+  if (err instanceof MongooseError) {
+    return res.status(500).json({
+      status: 500,
+      message: err.message,
+      name: 'Mongoose error',
+    });
   }
 
   res.status(500).json({
     status: 500,
     message: 'Something went wrong',
     error: err.message,
+    name: 'Internal server error',
   });
 };
