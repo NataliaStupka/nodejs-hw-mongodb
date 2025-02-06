@@ -18,41 +18,69 @@
       // src/routers/students.js
 
 2.  Пагінація:
+    2.1. Створення:
 
+         - логіка парсингу параметрів пошуку (page - сторінка, perPage - скільки на сторінці)
+           // src/utils/parsePaginationParams.js
+         - page, perPage додати в getStudentsController
+           // src/controllers/students.js
+         - calculatePaginationData - повертає об'єкт з повною інформацією про пагінацію
+           // src/utils/calculatePaginationData.js
+         - додати до сервісу логіку для того, щоб правильно запитувати дані з бази даних
+           // src/.../services/students.js
+
+    - .limit() - скільки хочемо повернути;
+    - .skip() - скільки пропустити/відступити
+
+3.  Сортування: sortBy - по чому, sortOrder - порядок (ascendants)↑, (descendants)↓
+    - .sort()
+4.  Фільтрація
+    з фільтрами буде базовий query
+    фільтр впливає на загальну кількість контактів
+    gte - більше/дорівнює
+    lte - менше
+    equals - для строки, буля
+
+- merge -
+
+5.  !!! глобальний клас **Promise** - можливість паралельно запускати два проміса
+
+- Promise.all
+- Promise.allset
 <!-- 3 module - hw3-crud -->
 
-1.  створюємо folder:
+6.  створюємо folder:
 
     - routers(/contacts.js); router.get()
     - controllers(/contacts.js); res.status(200)
     - middlewares(errorHandler.js , notFoundHandler.js);
 
-1.  організовуємо роутінг:
+7.  організовуємо роутінг:
 
         - код роутів з src/server.js до файлу src/routers/contacts.js;
         - код контролерів з src/routers до файлу src/controllers/contacts.js;
 
-1.  Покращення обробки помилок ( http-errors ): npm install http-errors:
+8.  Покращення обробки помилок ( http-errors ): npm install http-errors:
     - src/controllers/students.js;
     - src/middlewares/errorHandler.js - додаємо можливість працювати з помилками;
-1.  обробки помилок в middleware:
+9.  обробки помилок в middleware:
 
         - errorHandler.js //status(500)
         - notFoundHandler.js //status(404)
         - імпортуємо в server
 
-1.  **???? ctrlWrapper.js**
+10. **???? ctrlWrapper.js**
 
     <!--  -->
     <!-- Запити, POST, PUT, PATCH, DELETE -->
 
     **controllers - routers - services**
 
-1.  POST
+11. POST
     //метод: Model.create(doc) Для створення нового документа
-1.  PATCH
+12. PATCH
     //метод: Model.findOneAndUpdate(query, update, options, callback) Для оновлення документа в колекції
-1.  DELETE
+13. DELETE
     //метод: Model.findOneAndDelete(filter, options, callback)
 
 <!-- 2 module - hw2-mongodb-->
