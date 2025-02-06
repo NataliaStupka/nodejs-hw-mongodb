@@ -1,4 +1,4 @@
-розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB
+розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB; Promise.all and other
 
 <!-- 4 module - hw4-validation -->
 
