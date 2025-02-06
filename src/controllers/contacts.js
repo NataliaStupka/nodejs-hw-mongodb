@@ -6,11 +6,27 @@ import {
   getContact,
   getContactById,
   updataContact,
-} from '../db/services/contacts.js';
+} from '../services/contacts.js';
 import createHttpError from 'http-errors'; //ПОМИЛКА пошуку контакту за id
+import { parsePaginationParams } from '../utils/parsePaginationParams.js'; //page, perPage
+import { parseSortParams } from '../utils/parseSortParams.js'; //сортування
+import { parseFilters } from '../utils/parseFilterParams.js';
 
+//GET_all
 export const getContactsController = async (req, res) => {
-  const contacts = await getContact();
+  //const { page, perPage } = req.query;
+  const { page, perPage } = parsePaginationParams(req.query); //pagination
+  const { sortOrder, sortBy } = parseSortParams(req.query); //sort
+  const filter = parseFilters(req.query); //filter
+  console.log('REQ:', req.query); //-----
+
+  const contacts = await getContact({
+    page,
+    perPage,
+    sortOrder,
+    sortBy,
+    filter,
+  });
   // res.json(contacts);
   res.status(200).json({
     status: 200,
@@ -18,7 +34,7 @@ export const getContactsController = async (req, res) => {
     data: contacts,
   });
 };
-
+//GET_by-id
 export const getContactByIdController = async (req, res) => {
   const contactId = req.params.contactId;
   const contact = await getContactById(contactId);
