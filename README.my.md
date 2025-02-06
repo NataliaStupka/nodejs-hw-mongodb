@@ -47,40 +47,41 @@
 
 - Promise.all
 - Promise.allset
+
 <!-- 3 module - hw3-crud -->
 
-6.  створюємо folder:
+1.  створюємо folder:
 
     - routers(/contacts.js); router.get()
     - controllers(/contacts.js); res.status(200)
     - middlewares(errorHandler.js , notFoundHandler.js);
 
-7.  організовуємо роутінг:
+2.  організовуємо роутінг:
 
         - код роутів з src/server.js до файлу src/routers/contacts.js;
         - код контролерів з src/routers до файлу src/controllers/contacts.js;
 
-8.  Покращення обробки помилок ( http-errors ): npm install http-errors:
+3.  Покращення обробки помилок ( http-errors ): npm install http-errors:
     - src/controllers/students.js;
     - src/middlewares/errorHandler.js - додаємо можливість працювати з помилками;
-9.  обробки помилок в middleware:
+4.  обробки помилок в middleware:
 
         - errorHandler.js //status(500)
         - notFoundHandler.js //status(404)
         - імпортуємо в server
 
-10. **???? ctrlWrapper.js**
+5.  **???? ctrlWrapper.js**
 
     <!--  -->
     <!-- Запити, POST, PUT, PATCH, DELETE -->
 
     **controllers - routers - services**
 
-11. POST
+6.  POST
     //метод: Model.create(doc) Для створення нового документа
-12. PATCH
+7.  PATCH
     //метод: Model.findOneAndUpdate(query, update, options, callback) Для оновлення документа в колекції
-13. DELETE
+8.  DELETE
     //метод: Model.findOneAndDelete(filter, options, callback)
 
 <!-- 2 module - hw2-mongodb-->
