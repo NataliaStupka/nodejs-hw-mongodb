@@ -55,7 +55,8 @@ export const getContact = async ({
     contactsCount,
   );
 
-  return { items: contacts, ...paginationMetaData };
+  //відповідь запиту
+  return { data: contacts, ...paginationMetaData };
 };
 
 //GET-by_id
