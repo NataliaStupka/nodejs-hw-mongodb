@@ -6,12 +6,10 @@ import createHttpError from 'http-errors';
 export const validateMongoId =
   (name = 'id') =>
   (req, res, next) => {
-    console.log('????:', req.params);
-
     // const { contactId } = req.params;
     //якщо не валідний
     if (!isValidObjectId(req.params[name])) {
-      next(createHttpError(404, `${name} is not a valid MongoId`));
+      next(createHttpError(400, `${name} is not a valid MongoId`));
     }
     next();
   };
