@@ -15,7 +15,6 @@ export const errorHandler = (err, req, res, next) => {
     return;
   }
 
-  //???? однакове з рядок 28??
   if (err instanceof MongooseError) {
     return res.status(500).json({
       status: 500,
