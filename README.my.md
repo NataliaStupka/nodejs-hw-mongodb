@@ -1,8 +1,89 @@
 розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB; Promise.all and other
 
-<!-- 4 module - hw4-validation -->
+<!-- 5 module - hw4-validation -->
 
-1.  Validation:
+    <!-- 5 module - hw5-authenticate -->
+    Авторизація, не відповідає REST, а використовує методи post
+
+1.  Aутентифікації (на основі логіну, паролю) - вхід в систему
+
+    авторизовані запити за допомогою хедера Authorization Bear <token>
+
+    1.1. auth-user
+    **Реїстрація:**
+
+        - створюємо сутність user (models/user.js)
+        - validation (validation/user.js)
+        - створення user (services/auth.js)
+        - controllers/auth - для register
+        - шлях auth (routes/auth.js) - authRouter
+        - routers/index.js (перенести сюди роути contacts і auth),
+          редагувати шляхи у routes/contacts, оновити підключення роутів до сервера через routes/index.js
+        - validation/registerUser.js
+        - обробити помилки (middlewar/errorHandler)
+          1.2. - кешування паролю **npm i bcrypt** - прибрати поле з паролем при відповіді
+          //
+          userSchema.methods.toJSON = function () {
+          const obj = this.toObject();
+          delete obj.password;
+          return obj;
+          };
+          //або обгортка що віддаємо на фронтенд
+          створитит utils/serializeUser.js, обгортаємо створеною функцією user в controllers/user
+
+2.  **Login**
+
+    - services/auth - router/auth;
+    - controller/auth;
+    - схема валідації (validation/login);
+    - routers/auth;
+
+3.  **session** в login-user
+
+    - models/session.js;
+    - у файл констант нові константи
+    - services/auth.js
+
+4.  cookies **npm i cookie-parser**
+    метод .cookie
+
+    - server.js;
+    - controllers/auth.js (login)
+
+5.  **logout**
+    треба очистити cookies (лише сервер може це зробити, оскільки вони httpOnly), а також видалити сесію із бази даних:
+
+    - services/auth.js;
+    - controllers/auth.js
+      res.clearCookie - очищає кукі
+    - routers/auth.js;
+
+6.  **refresh**
+    стару сесію видалити, нову створити, якщо токен вже просрочений то відправити на логінізацію
+    - controller
+    - router
+7.  при видаленні **accessToken**, перевіряємо доступи в midlewar
+
+            - (authenticate.js) - routers/contact (contactsRouter.use('/', authentificate)) - якщо user не залогінений то при get запиті контакти не відправляться.
+            - Postman: auth/login (беремо токен) - contact/get_all (в хедер Bearer 'вставляемо токен' ) = отримуємо контакти;
+              Authorization - Bearer 'token'(той що при auth/login) (postman/header на get запиті)
+
+        \*. Налаштування вставлення токену в get запит в postman: login/Scripts:
+
+    //
+    const jsonData = pm.response.json();
+    pm.environment.set('access_token', jsonData.data.accessToken)
+    //
+    Environment, Local - Variable: access_token;
+    Colections/getContact/Auth - AuthType (BearerToken), Token ({{access_token}})
+
+8.  До db/models/user додамо поле role (teacher, parent), для **авторизація**
+
+ <!-- 4 module - hw4-validation -->
+
+        <!-- 4 module - hw4-validation -->
+
+8.  Validation:
     npm i joi
 
     - схема валідації через joi () - створення/оновлення контакту
@@ -17,7 +98,7 @@
     - додати у роути валідацію
       // src/routers/students.js
 
-2.  Пагінація:
+9.  Пагінація:
     2.1. Створення:
 
          - логіка парсингу параметрів пошуку (page - сторінка, perPage - скільки на сторінці)
@@ -32,9 +113,9 @@
     - .limit() - скільки хочемо повернути;
     - .skip() - скільки пропустити/відступити
 
-3.  Сортування: sortBy - по чому, sortOrder - порядок (ascendants)↑, (descendants)↓
+10. Сортування: sortBy - по чому, sortOrder - порядок (ascendants)↑, (descendants)↓
     - .sort()
-4.  Фільтрація
+11. Фільтрація
     з фільтрами буде базовий query
     фільтр впливає на загальну кількість контактів
     gte - більше/дорівнює
