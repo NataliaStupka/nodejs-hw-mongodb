@@ -20,10 +20,3 @@ export const updateContactSchema = Joi.object({
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal'),
 });
-
-// .messages({
-//     'string.base': 'Username should be a string', // Кастомізація повідомлення для типу "string"
-//     'string.min': 'Username should have at least {#limit} characters',
-//     'string.max': 'Username should have at most {#limit} characters',
-//     'any.required': 'Username is required',
-//   })
