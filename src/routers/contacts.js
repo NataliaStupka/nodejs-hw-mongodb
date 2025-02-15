@@ -6,39 +6,41 @@ import {
   getContactsController,
   patchContactController,
 } from '../controllers/contacts.js';
-//обгортка try/catch
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-//Валідація
-import { validateBody } from '../middlewares/validateBody.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js'; //обгортка try/catch
+import { validateBody } from '../middlewares/validateBody.js'; //Валідація
 import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
 import { validateMongoId } from '../middlewares/validateMongoId.js';
+import { authentificate } from '../middlewares/authenticate.js';
 
-const router = Router();
+const contactsRouter = Router();
 
-router.use('/contacts/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
+contactsRouter.use('/', authentificate); //аунтефікація (без авторизації)
+
+contactsRouter.use('/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
+//contactsRouter.use('/contacts/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
 
 //контролер у роуті
-router.get('/contacts', ctrlWrapper(getContactsController));
-router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
+contactsRouter.get('/', ctrlWrapper(getContactsController));
+contactsRouter.get('/:contactId', ctrlWrapper(getContactByIdController));
 
 // POST
-router.post(
-  '/contacts',
+contactsRouter.post(
+  '/',
   validateBody(createContactSchema), //валідація
   ctrlWrapper(createContactController),
 );
 
 //PATCH - update
-router.patch(
-  '/contacts/:contactId',
+contactsRouter.patch(
+  '/:contactId',
   validateBody(updateContactSchema), //валідація
   ctrlWrapper(patchContactController),
 );
 
 //DELETE
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+contactsRouter.delete('/:contactId', ctrlWrapper(deleteContactController));
 
-export default router;
+export default contactsRouter;
