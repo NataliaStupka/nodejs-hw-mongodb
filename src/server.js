@@ -5,12 +5,15 @@ import cors from 'cors'; //безпека
 
 import { getEnvVar } from './utils/getEnvVar.js'; //зчитування змінних оточення
 
-//роутер get(/contacts, /contacts/:contactId)
-import contactsRouter from './routers/contacts.js';
+//роутер get(/contacts, /contacts/:contactId, /auth)
+import router from './routers/index.js';
 
 // Імпортуємо middleware (помилки)
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+
+//cookie
+import cookieParser from 'cookie-parser';
 
 // dotenv.config() - використовує глобальний об'єкт process.env
 
@@ -21,6 +24,7 @@ export const setupServer = () => {
   //перевіряє, чи дані, які надійшли на сервер, у форматі JSON, і якщо так, розпаковує (парсить) їх.
   app.use(express.json()); // Вбудований у express middleware для обробки (парсингу) JSON-даних у запитах
   app.use(cors());
+  app.use(cookieParser()); //cookie
 
   //логування, в 'зрозумілому' вигляді pino-pretty
   app.use(
@@ -31,7 +35,7 @@ export const setupServer = () => {
     }),
   );
 
-  app.use(contactsRouter); //роутер контролерів get(/contacts, /contacts/:contactId)
+  app.use(router); //роутер контролерів get(/contacts, /contacts/:contactId)
 
   //помилки
   app.use('*', notFoundHandler); //status(404)
