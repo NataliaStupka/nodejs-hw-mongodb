@@ -1,7 +1,8 @@
 //схема контактів
 //
 
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+import { UserCollection } from './user.js';
 
 const contactSchema = new Schema(
   {
@@ -15,6 +16,7 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
+    parentId: { type: Types.ObjectId, ref: UserCollection, required: true },
   },
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt
 );
