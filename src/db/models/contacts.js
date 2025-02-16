@@ -16,6 +16,7 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
+
     parentId: { type: Types.ObjectId, ref: UserCollection, required: true },
   },
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt

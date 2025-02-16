@@ -79,6 +79,11 @@
 
 8.  До db/models/user додамо поле role (teacher, parent), для **авторизація**
 
+    - teacher мають повний доступ до всіх контактів
+    - parent - доступ тільки до свого контакту
+
+    - нова midlewar
+
  <!-- 4 module - hw4-validation -->
 
         <!-- 4 module - hw4-validation -->
