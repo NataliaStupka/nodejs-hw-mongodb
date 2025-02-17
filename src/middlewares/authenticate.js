@@ -39,7 +39,6 @@ export const authentificate = async (req, res, next) => {
     }
 
     const user = await UserCollection.findById(session.userId);
-
     if (!user) {
       //якщо немає user - видаляємо сесію
       await SessionsCollection.findByIdAndDelete(session._id);
@@ -48,7 +47,6 @@ export const authentificate = async (req, res, next) => {
 
     //req.locals.user = user;
     req.user = user;
-    console.log('midlewar-auth_user:', user);
 
     next();
   } catch (err) {

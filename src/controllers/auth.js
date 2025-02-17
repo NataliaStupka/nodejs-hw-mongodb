@@ -4,11 +4,11 @@ import {
   logoutUser,
   refreshSession,
 } from '../services/auth.js'; //створенний користувач
-import { serializeUser } from '../utils/serializeUser.js'; //схема об'єкту  щ о повертаємо при response
+import { serializeUser } from '../utils/serializeUser.js'; //схема об'єкту, що повертаємо при response
 
 import { REFRESH_TOKEN } from '../constants/env.js';
 
-//для переваикористання: налаштування
+//для перевикористання: налаштування
 const setupSessionCookies = (session, res) => {
   //cookie(name, value, options)
   res.cookie('refreshToken', session.refreshToken, {
@@ -24,8 +24,6 @@ const setupSessionCookies = (session, res) => {
 //REGISTER
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
-  //   console.log('BODY_controller-register??:', req.body);
-  //   console.log('USER_controller-register??:', user);
 
   res.status(200).json({
     status: 200,
@@ -36,17 +34,11 @@ export const registerUserController = async (req, res) => {
 
 //LOGIN
 export const loginUserController = async (req, res) => {
-  console.log('REQREQ-body:', req.body);
-
   //виконує процес аутентифікації і повертає об'єкт сесії
   const session = await loginUser(req.body); // req.body - email, password
-  console.log('SESSION', session);
 
   //налаштування cookies
   setupSessionCookies(session, res);
-  console.log(
-    `Controllers-auth_setupSessionCookies(ses: ${session}, res: ${res})`,
-  );
 
   res.status(200).json({
     status: 200,
@@ -60,19 +52,15 @@ export const loginUserController = async (req, res) => {
 
 //REFRESH
 export const refreshSessionController = async (req, res) => {
-  console.log(`Controller-auth_req: ${req}; res: ${res}`);
-
   const session = await refreshSession({
     //з cookies беремо sessionId, refreshToken
     sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
   });
-  console.log('Controller-auth_session', session);
 
   //налаштування cookies
   setupSessionCookies(session, res);
 
-  console.log('Controlers-auth_RES::', res);
   //повертаємо response з новим token
   res.status(200).json({
     status: 200,

@@ -19,35 +19,23 @@ const createSession = () => ({
 
 //REGISTER     //payload - name, email, password
 export const registerUser = async ({ name, email, password }) => {
-  //1 спосіб - перевіряємо базу, чи є юзер з таким емейлом
+  //перевіряємо базу, чи є юзер з таким емейлом
   let user = await UserCollection.findOne({ email: email });
   if (user) {
     throw createHttpError(409, 'Email in use!');
   }
-  //хешування пароля
+
+  //хешування паролю
   const hashedPassword = await bcrypt.hash(password, 10); //10 - кількість дій(раундів)
   user = await UserCollection.create({ name, email, password: hashedPassword });
 
   return user;
-  //     //2й спосіб //user з таким email вже зареєстрований
-  //   try {
-  //     const user = await UserCollection.create(payload);
-  //     return user;
-  //   } catch (err) {
-  //     //номер помилки подивитися через дебагер
-  //     if (err.code === 11000) {
-  //       throw createHttpError(409, 'User alredy registred!');
-  //     }
-  //     throw err;
-  //   }
 };
 
 //LOGIN
 export const loginUser = async ({ email, password }) => {
   //перевіряємо базу, чи є юзер з таким емейлом
   const user = await UserCollection.findOne({ email: email });
-  console.log(`Services - email: ${email}, password: ${password}`);
-  console.log('Services - USERRR:', user);
   if (!user) {
     throw createHttpError(404, 'User not found!');
   }
@@ -68,16 +56,11 @@ export const loginUser = async ({ email, password }) => {
 
 //REFRESH
 export const refreshSession = async ({ sessionId, refreshToken }) => {
-  console.log(
-    `Services-refresh_req: id - ${sessionId}, token - ${refreshToken}`,
-  );
   //отримали сесію
   const session = await SessionsCollection.findOne({
-    //sessionId: req.cookies.sessionId,
     _id: sessionId,
     refreshToken,
   });
-  console.log('services-auth_session:', session);
 
   //сесії не має
   if (!session) {
@@ -105,8 +88,7 @@ export const refreshSession = async ({ sessionId, refreshToken }) => {
   return newSession;
 };
 
-//LOGOUT
+//LOGOUT - видаляє сесію
 export const logoutUser = async (sessionId) => {
-  console.log('services-logout_sessionId:', sessionId);
   await SessionsCollection.deleteOne({ _id: sessionId });
 };

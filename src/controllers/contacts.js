@@ -52,9 +52,6 @@ export const getContactByIdController = async (req, res) => {
 
 //POST
 export const createContactController = async (req, res) => {
-  console.log('Control-contact_req.Body:', req.body);
-  console.log('Control-contact_req.user:', req.user);
-
   const contact = await createContact({
     ...req.body,
     parentId: req.body.parentId ?? req.user._id,

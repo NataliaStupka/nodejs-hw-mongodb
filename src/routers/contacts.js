@@ -12,7 +12,7 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
-import { validateMongoId } from '../middlewares/validateMongoId.js';
+import { validateMongoId } from '../middlewares/validateMongoId.js'; //валідація id
 import { authentificate } from '../middlewares/authenticate.js';
 
 const contactsRouter = Router();

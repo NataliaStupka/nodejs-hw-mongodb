@@ -64,25 +64,18 @@
     - router
 7.  при видаленні **accessToken**, перевіряємо доступи в midlewar
 
-            - (authenticate.js) - routers/contact (contactsRouter.use('/', authentificate)) - якщо user не залогінений то при get запиті контакти не відправляться.
-            - Postman: auth/login (беремо токен) - contact/get_all (в хедер Bearer 'вставляемо токен' ) = отримуємо контакти;
-              Authorization - Bearer 'token'(той що при auth/login) (postman/header на get запиті)
+                - (authenticate.js) - routers/contact (contactsRouter.use('/', authentificate)) - якщо user не залогінений то при get запиті контакти не відправляться.
+                - Postman: auth/login (беремо токен) - contact/get_all (в хедер Bearer 'вставляемо токен' ) = отримуємо контакти;
+                  Authorization - Bearer 'token'(той що при auth/login) (postman/header на get запиті)
 
-        \*. Налаштування вставлення токену в get запит в postman: login/Scripts:
+            \*. Налаштування вставлення токену в get запит в postman: login/Scripts:
 
-    //
-    const jsonData = pm.response.json();
-    pm.environment.set('access_token', jsonData.data.accessToken)
-    //
-    Environment, Local - Variable: access_token;
-    Colections/getContact/Auth - AuthType (BearerToken), Token ({{access_token}})
-
-8.  До db/models/user додамо поле role (teacher, parent), для **авторизація**
-
-    - teacher мають повний доступ до всіх контактів
-    - parent - доступ тільки до свого контакту
-
-    - нова midlewar
+        //
+        const jsonData = pm.response.json();
+        pm.environment.set('access_token', jsonData.data.accessToken)
+        //
+        Environment, Local - Variable: access_token;
+        Colections/getContact/Auth - AuthType (BearerToken), Token ({{access_token}})
 
  <!-- 4 module - hw4-validation -->
 
