@@ -16,8 +16,12 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
-    //???
-    //contactId: { type: Types.ObjectId, ref: UserCollection, required: true },
+    // приналежність певному користувачу
+    userId: {
+      type: Types.ObjectId, // Schema.Types.ObjectId
+      ref: UserCollection, //'users'
+      required: true,
+    },
   },
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt
 );

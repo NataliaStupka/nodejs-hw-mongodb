@@ -77,11 +77,23 @@
         Environment, Local - Variable: access_token;
         Colections/getContact/Auth - AuthType (BearerToken), Token ({{access_token}})
 
- <!-- 4 module - hw4-validation -->
+8.  Authorization
+    користувачі могли працювати лише з власними контактами;
+    методи Mongoose такі як find(), findOne() тощо.
 
-        <!-- 4 module - hw4-validation -->
+        - models/contact Schema додати поле userId;
+        - controllers/contact додати userId;
+        - services/contact в contactQuery додати в аргументи userId
+        - при створенні нового контакту також додавалося поле userId
+        - services/contacts.js додайте пошук:
+            const contactsQuery = ContactsCollection.find({ userId });
+        - userId потрібно отримати в сонтроллері getContactsController
 
-8.  Validation:
+    <!-- 4 module - hw4-validation -->
+
+                   <!-- 4 module - hw4-validation -->
+
+9.  Validation:
     npm i joi
 
     - схема валідації через joi () - створення/оновлення контакту
@@ -96,7 +108,7 @@
     - додати у роути валідацію
       // src/routers/students.js
 
-9.  Пагінація:
+10. Пагінація:
     2.1. Створення:
 
          - логіка парсингу параметрів пошуку (page - сторінка, perPage - скільки на сторінці)
@@ -111,9 +123,9 @@
     - .limit() - скільки хочемо повернути;
     - .skip() - скільки пропустити/відступити
 
-10. Сортування: sortBy - по чому, sortOrder - порядок (ascendants)↑, (descendants)↓
+11. Сортування: sortBy - по чому, sortOrder - порядок (ascendants)↑, (descendants)↓
     - .sort()
-11. Фільтрація
+12. Фільтрація
     з фільтрами буде базовий query
     фільтр впливає на загальну кількість контактів
     gte - більше/дорівнює

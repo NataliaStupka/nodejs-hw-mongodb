@@ -1,4 +1,5 @@
 import { ContactCollection } from '../db/models/contacts.js';
+import { Types } from 'mongoose';
 
 //розрахунок, pagination
 const createPaginationMetadata = (page, perPage, count) => {
@@ -18,6 +19,7 @@ const createPaginationMetadata = (page, perPage, count) => {
 
 //GET-all
 export const getContact = async ({
+  userId, // приналежність
   page,
   perPage,
   sortBy,
@@ -28,7 +30,7 @@ export const getContact = async ({
   const offset = (page - 1) * perPage; //(поточна сторінка - 1)*кільк.на сторінці
 
   //filter
-  const contactQuery = ContactCollection.find();
+  const contactQuery = ContactCollection.find({ userId }); // { userId } приналежність
   if (filter.contactType) {
     contactQuery.where('contactType').equals(filter.contactType);
   }
@@ -60,22 +62,39 @@ export const getContact = async ({
 };
 
 //GET-by_id
-export const getContactById = async (contactId) => {
-  const contact = await ContactCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+  const contactObjectId = new Types.ObjectId(contactId); // contactId на ObjectId
+  const userObjectId = new Types.ObjectId(userId); // Якщо userId - рядок, також конвертуємо його в ObjectId
+  const contact = await ContactCollection.findOne({
+    _id: contactObjectId,
+    userId: userObjectId,
+  });
+  // console.log('contactId:', contactId); //contactId2: 67b3a61e0f7dafce84477b9e
+  // console.log('userId:', userId); //userId2: new ObjectId('67b39e9a75a34394c3abb635')
+
   return contact;
 };
 
-//POST
+//POST    //payload: name, phoneNumber, isFavourite, contactType, userId
 export const createContact = async (payload) => {
-  const contact = await ContactCollection.create(payload);
+  console.log('1ser-post-payload!', payload);
+
+  const contact = await ContactCollection.create({ ...payload });
   return contact;
 };
 
 //PATCH  .findOneAndUpdate(filter, update, options, callback)
-export const updataContact = async (contactId, payload, options = {}) => {
+export const updataContact = async (
+  contactId,
+  userId,
+  payload,
+  options = {},
+) => {
+  // const contactObjectId = new Types.ObjectId(contactId);
+  // const userObjectId = new Types.ObjectId(userId);
   const rawResult = await ContactCollection.findOneAndUpdate(
-    { _id: contactId }, //_id - стандартне ім'я для первинного ключа
-    payload,
+    { _id: contactId, userId }, //_id - стандартне ім'я для первинного ключа
+    payload, // Оновлені дані
     {
       new: true, //поверне оновлений документ (після оновлення).
       includeResultMetadata: true,
@@ -92,9 +111,10 @@ export const updataContact = async (contactId, payload, options = {}) => {
 };
 
 //DELETE   .findOneAndDelete(filter, options, callback)
-export const deleteContact = async (contactId) => {
+export const deleteContact = async (contactId, userId) => {
   const contact = await ContactCollection.findOneAndDelete({
     _id: contactId,
+    userId,
   });
   return contact;
 };

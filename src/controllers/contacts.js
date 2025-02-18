@@ -1,5 +1,5 @@
 //функції для обробки запитів
-
+// import { Types } from 'mongoose';
 import {
   createContact,
   deleteContact,
@@ -15,11 +15,13 @@ import { parseFilters } from '../utils/parseFilterParams.js';
 //GET_all
 export const getContactsController = async (req, res) => {
   //const { page, perPage } = req.query;
+  const { _id: userId } = req.user; // приналежність
   const { page, perPage } = parsePaginationParams(req.query); //pagination
   const { sortOrder, sortBy } = parseSortParams(req.query); //sort
   const filter = parseFilters(req.query); //filter
 
   const contacts = await getContact({
+    userId, // приналежність
     page,
     perPage,
     sortOrder,
@@ -35,8 +37,9 @@ export const getContactsController = async (req, res) => {
 };
 //GET_by-id
 export const getContactByIdController = async (req, res) => {
+  const { _id: userId } = req.user; // приналежність
   const contactId = req.params.contactId;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, userId);
 
   //помилка з http-errors'
   if (!contact) {
@@ -53,8 +56,8 @@ export const getContactByIdController = async (req, res) => {
 //POST
 export const createContactController = async (req, res) => {
   const contact = await createContact({
-    ...req.body,
-    parentId: req.body.parentId ?? req.user._id,
+    ...req.body, //name, phoneNumber, isFavourite, contactType
+    userId: req.user._id, //приналежність до user
   });
 
   res.status(201).json({
@@ -66,8 +69,12 @@ export const createContactController = async (req, res) => {
 
 //PATCH
 export const patchContactController = async (req, res, next) => {
+  const { _id: userId } = req.user; //приналежність
   const { contactId } = req.params;
-  const result = await updataContact(contactId, req.body);
+
+  const result = await updataContact(contactId, userId, req.body);
+
+  console.log('result2', result);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
@@ -76,14 +83,16 @@ export const patchContactController = async (req, res, next) => {
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result.contact,
+    data: result,
   });
 };
 
 //DELETE
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await deleteContact(contactId);
+  const { _id: userId } = req.user;
+
+  const contact = await deleteContact(contactId, userId);
 
   if (!contact) {
     next(createHttpError(404, 'Contact not found'));
