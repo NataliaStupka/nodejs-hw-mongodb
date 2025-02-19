@@ -104,8 +104,9 @@ export const updataContact = async (
 
   if (!rawResult || !rawResult.value) return null;
 
+  //toObject() конвертує результат Mongoose документу в "простий" об'єкт JavaScript, позбавлений метаданих, таких як $__, _doc, і іншого.
   return {
-    contact: rawResult.value,
+    ...rawResult.value.toObject(),
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };
