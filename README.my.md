@@ -1,4 +1,5 @@
 розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB; Promise.all and other
+подивитися про адаптер
 
 <!-- 5 module - hw4-validation -->
 
