@@ -6,9 +6,11 @@ import {
   registerUserController,
   refreshSessionController,
   logoutUserController,
+  requestResetPasswordEmailController,
 } from '../controllers/auth.js'; //res.status(201).json();
 import { validateBody } from '../middlewares/validateBody.js';
 import { loginUserValidationSchema } from '../validation/loginUserValidationSchema.js'; //login
+import { requestResetEmailSchema } from '../validation/requestResetEmailSchema.js';
 
 const authRouter = Router();
 
@@ -24,5 +26,12 @@ authRouter.post(
 );
 authRouter.post('/refresh', ctrlWrapper(refreshSessionController));
 authRouter.post('/logout', ctrlWrapper(logoutUserController));
+
+//sendEmail to resetPassword
+authRouter.post(
+  'request-reset-password-email',
+  validateBody(requestResetEmailSchema), //потрібен лише email
+  ctrlWrapper(requestResetPasswordEmailController),
+);
 
 export default authRouter;
