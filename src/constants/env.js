@@ -1,7 +1,22 @@
+//створюємо об'єктом, а не строкою
+
 export const ENV_VARS = {
   PORT: 'PORT',
+  //перенести MONGODB ???
+
+  //скидання паролю
+  SMTP_HOST: 'SMTP_HOST',
+  SMTP_PORT: 'SMTP_PORT',
+  SMTP_USER: 'SMTP_USER',
+  SMTP_PASSWORD: 'SMTP_PASSWORD',
+  SMTP_FROM: 'SMTP_FROM',
+  JWT_SECRET: 'JWT_SECRET',
+
+  FRONTEND_DOMAIN: 'FRONTEND_DOMAIN', //адреса куди переправляє лист
+  BACKEND_DOMAIN: 'BACKEND_DOMAIN',
 };
 
+//?????? перенести в окремий файл
 //sessions
 //export const ACCESS_TOKEN = 1000; //для тесту, при не робочому токену
 export const ACCESS_TOKEN = 15 * 60 * 1000; //15 minutes
