@@ -1,10 +1,10 @@
 import nodemailer from 'nodemailer'; //надсилання листів.
 import createHttpError from 'http-errors';
-import { getEnvVar } from './getEnvVar'; //зчитування змінних оточення
-import { ENV_VARS } from '../constants/env';
+import { getEnvVar } from './getEnvVar.js'; //зчитування змінних оточення
+import { ENV_VARS } from '../constants/env.js';
 
 // createTransport - до якого сервісу посилаємо повідомлення
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   host: getEnvVar(ENV_VARS.SMTP_HOST),
   port: Number(getEnvVar(ENV_VARS.SMTP_PORT)),
   auth: {

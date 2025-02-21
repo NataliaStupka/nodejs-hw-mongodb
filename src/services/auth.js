@@ -10,7 +10,7 @@ import { SessionsCollection } from '../db/models/session.js';
 //скидання пароля
 import jwt from 'jsonwebtoken'; //для роботи із JWT-токеном
 import Handlebars from 'handlebars'; //шаблон - library
-import fs from 'nade:fs';
+import fs from 'node:fs';
 import path from 'node:path'; //шлях
 //
 import { getEnvVar } from '../utils/getEnvVar.js'; //взаємодія із змінними оточення
