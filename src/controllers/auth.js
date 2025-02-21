@@ -4,6 +4,7 @@ import {
   logoutUser,
   refreshSession,
   requestResetPasswordEmail, //надсилання листа на зміну паролю
+  resetPassword,
 } from '../services/auth.js'; //створенний користувач
 import { serializeUser } from '../utils/serializeUser.js'; //схема об'єкту, що повертаємо при response
 
@@ -89,15 +90,23 @@ export const logoutUserController = async (req, res) => {
 
 //НАДСИЛАННЯ ЛИСТА resetPassword
 export const requestResetPasswordEmailController = async (req, res) => {
-  console.log('CONTROLLER RESET');
-  console.log('control - ', req.body);
-
   await requestResetPasswordEmail(req.body.email); //надсилання на email листа на зміну паролю
 
-  //console.log('RES-control', res, res.body);
   res.json({
     status: 200,
     message: 'Reset password email was successfully sent!',
+    data: {},
+  });
+};
+
+//ЗМІНА ПАРОЛЮ ЗА ТОКЕНОМ
+export const resetPasswordController = async (req, res) => {
+  console.log('CONTROLLER///:', req.body);
+  await resetPassword(req.body);
+
+  res.json({
+    status: 200,
+    message: 'Password was successfully reset! 👍',
     data: {},
   });
 };

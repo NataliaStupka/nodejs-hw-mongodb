@@ -21,9 +21,13 @@ npm i handlebars
    - ✅ utils/sendEmail.js - Функціонал надсилання листів(кому, від кого, сам лист)
    - ✅ controllers/auth (передали у функ req.body, отримали відповідь res.json({}));
    - ✅ Shema (validation/requestResetEmailSchema) - email ;
-   - routers/auth
+   - ✅ routers/auth
 
-3. Заміна поролю на новийЖ
+3. Заміна поролю на новий:
+   - services/auth
+   - controllers/auth
+   - Shema (validation/) - password, email
+   - routers/auth
 
 <!-- 5 module - hw4-validation -->
 

@@ -9,10 +9,12 @@ import {
   refreshSessionController,
   logoutUserController,
   requestResetPasswordEmailController,
+  resetPasswordController,
 } from '../controllers/auth.js'; //res.status(201).json();
 import { loginUserValidationSchema } from '../validation/loginUserValidationSchema.js'; //login
 //скид паролю
 import { requestResetEmailSchema } from '../validation/requestResetEmailSchema.js';
+import { resetPasswordValidationSchema } from '../validation/resetPasswordValidationSchema.js';
 
 const authRouter = Router();
 
@@ -34,6 +36,13 @@ authRouter.post(
   '/request-reset-password-email',
   validateBody(requestResetEmailSchema), //потрібен лише email
   ctrlWrapper(requestResetPasswordEmailController),
+);
+
+//зміна паролю за токеном
+authRouter.post(
+  '/reset-password',
+  validateBody(resetPasswordValidationSchema), //password, token
+  ctrlWrapper(resetPasswordController),
 );
 
 export default authRouter;

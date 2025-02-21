@@ -109,9 +109,6 @@ const resetEmailTemplate = fs
 
 //НАДСИЛАННЯ ЛИСТА resetPassword
 export const requestResetPasswordEmail = async (email) => {
-  console.log('SERVICES');
-  console.log('EM - ', email);
-
   const user = await UserCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found!');
@@ -148,4 +145,29 @@ export const requestResetPasswordEmail = async (email) => {
   });
 };
 
-//ВСТАНОВЛЕННЯ НОВОГО ПАРОЛЮ
+//ВСТАНОВЛЕННЯ НОВОГО ПАРОЛЮ ЗА ТОКЕНОМ
+export const resetPassword = async ({ password, token }) => {
+  let payload;
+
+  //чи валідний токен, через jwt.verify
+  try {
+    payload = jwt.verify(token, getEnvVar(ENV_VARS.JWT_SECRET));
+  } catch (err) {
+    console.error(err.message);
+    throw createHttpError(401, 'JWT token is invalid or expired');
+  }
+  console.log('PAYLOAD', payload);
+
+  const user = await UserCollection.findById(payload.sub);
+  if (!user) {
+    throw createHttpError(404, 'User not found!');
+  }
+
+  //хешуємо пароль
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  //замінюємо на ноий пароль, знаходимо користувача по id
+  await UserCollection.findByIdAndUpdate(user._id, {
+    password: hashedPassword,
+  });
+};
