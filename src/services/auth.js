@@ -5,8 +5,17 @@ import { UserCollection } from '../db/models/user.js'; //схема для юс�
 import bcrypt from 'bcrypt'; //хешування паролів
 import { randomBytes } from 'crypto'; //Генерація випадкових токенів
 //session
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/env.js';
+import { ACCESS_TOKEN, ENV_VARS, REFRESH_TOKEN } from '../constants/env.js';
 import { SessionsCollection } from '../db/models/session.js';
+//скидання пароля
+import jwt from 'jsonwebtoken'; //для роботи із JWT-токеном
+import Handlebars from 'handlebars'; //шаблон - library
+import fs from 'nade:fs';
+import path from 'node:path'; //шлях
+//
+import { getEnvVar } from '../utils/getEnvVar.js'; //взаємодія із змінними оточення
+import { TEMPLATES_DIR_PATH } from '../constants/path.js'; //шлях до src/templates
+import { sendEmail } from '../utils/sendEmail.js'; // надсилання листів
 
 //для перевикористання:
 const createSession = () => ({
@@ -92,3 +101,46 @@ export const refreshSession = async ({ sessionId, refreshToken }) => {
 export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
+
+//читає файл та повертає його вміст за шляхом path //для скиду паролю
+const resetEmailTemplate = fs
+  .readFileSync(path.join(TEMPLATES_DIR_PATH, 'reset-password-email.html'))
+  .toString(); // src/templates/шаблон html листа
+
+//НАДСИЛАННЯ ЛИСТА resetPassword
+export const requestResetPasswordEmail = async (email) => {
+  const user = await UserCollection.findOne({ email });
+  if (!user) {
+    throw createHttpError(404, '');
+  }
+
+  //створенн - токен, скидання пароля // jwt - для роботи з токеном (створення)
+  const token = jwt.sign(
+    { sub: user._id, email }, //для кого генеруємо токен
+    getEnvVar(ENV_VARS.JWT_SECRET), //для генерації підпису токену
+    { expiresIn: '15m' }, //термін дії
+  );
+
+  //шлях - посилання/назва?токен
+  const resetPasswordLink = `${getEnvVar(
+    ENV_VARS.FRONTEND_DOMAIN,
+  )}/reset-password?token=${token}`;
+
+  //шаблон
+  const template = Handlebars.compile(resetEmailTemplate);
+  const html = template({
+    name: user.name,
+    link: resetPasswordLink,
+  });
+
+  // sendEmail - надсилання листів
+  await sendEmail({
+    from: getEnvVar(ENV_VARS.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password!',
+    html,
+    // html: `<p>Click <a href="${token}">here</a> to reset your password!</p>`,
+  });
+};
+
+//ВСТАНОВЛЕННЯ НОВОГО ПАРОЛЮ
