@@ -1,6 +1,6 @@
 import {
-  loginUser,
   registerUser,
+  loginUser,
   logoutUser,
   refreshSession,
   requestResetPasswordEmail, //надсилання листа на зміну паролю
@@ -89,10 +89,12 @@ export const logoutUserController = async (req, res) => {
 
 //НАДСИЛАННЯ ЛИСТА resetPassword
 export const requestResetPasswordEmailController = async (req, res) => {
+  console.log('CONTROLLER RESET');
   console.log('control - ', req.body);
-  requestResetPasswordEmail(req.body); //надсилання листа на зміну паролю
 
-  console.log('RES-control', res, res.body);
+  await requestResetPasswordEmail(req.body.email); //надсилання на email листа на зміну паролю
+
+  //console.log('RES-control', res, res.body);
   res.json({
     status: 200,
     message: 'Reset password email was successfully sent!',

@@ -109,16 +109,21 @@ const resetEmailTemplate = fs
 
 //НАДСИЛАННЯ ЛИСТА resetPassword
 export const requestResetPasswordEmail = async (email) => {
+  console.log('SERVICES');
+  console.log('EM - ', email);
+
   const user = await UserCollection.findOne({ email });
   if (!user) {
-    throw createHttpError(404, '');
+    throw createHttpError(404, 'User not found!');
   }
 
   //створенн - токен, скидання пароля // jwt - для роботи з токеном (створення)
   const token = jwt.sign(
     { sub: user._id, email }, //для кого генеруємо токен
     getEnvVar(ENV_VARS.JWT_SECRET), //для генерації підпису токену
-    { expiresIn: '15m' }, //термін дії
+    {
+      expiresIn: '15m',
+    }, //термін дії
   );
 
   //шлях - посилання/назва?токен

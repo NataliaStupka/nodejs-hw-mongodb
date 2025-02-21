@@ -1,9 +1,8 @@
 //створюємо об'єктом, а не строкою
 
+//перенести MONGODB ???
 export const ENV_VARS = {
   PORT: 'PORT',
-  //перенести MONGODB ???
-
   //скидання паролю
   SMTP_HOST: 'SMTP_HOST',
   SMTP_PORT: 'SMTP_PORT',
