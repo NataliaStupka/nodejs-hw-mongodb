@@ -14,6 +14,7 @@ import {
 } from '../validation/contacts.js';
 import { validateMongoId } from '../middlewares/validateMongoId.js'; //валідація id
 import { authentificate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js'; //images
 
 const contactsRouter = Router();
 
@@ -29,6 +30,7 @@ contactsRouter.get('/:contactId', ctrlWrapper(getContactByIdController));
 // POST
 contactsRouter.post(
   '/',
+  // upload.single('photo'), //завантажування фото ????
   validateBody(createContactSchema), //валідація
   ctrlWrapper(createContactController),
 );
@@ -36,6 +38,7 @@ contactsRouter.post(
 //PATCH - update
 contactsRouter.patch(
   '/:contactId',
+  upload.single('photo'), //завантажування фото
   validateBody(updateContactSchema), //валідація
   ctrlWrapper(patchContactController),
 );

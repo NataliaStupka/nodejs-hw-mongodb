@@ -22,9 +22,12 @@ const contactSchema = new Schema(
       ref: UserCollection, //'users'
       required: true,
     },
+    //photo
+    photoUrl: { type: String, default: null, required: false },
   },
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt
 );
+
 export const ContactCollection = model('contacts', contactSchema);
 // model(ім'я колекції, схема);
 // createdAt (дата створення)

@@ -14,6 +14,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 
 //cookie
 import cookieParser from 'cookie-parser';
+import { UPLOADS_DIR_PATH } from './constants/path.js';
 
 // dotenv.config() - використовує глобальний об'єкт process.env
 
@@ -25,6 +26,9 @@ export const setupServer = () => {
   app.use(express.json()); // Вбудований у express middleware для обробки (парсингу) JSON-даних у запитах
   app.use(cors());
   app.use(cookieParser()); //cookie
+
+  //зберігання картинки на сервері
+  app.use('/uploads', express.static(UPLOADS_DIR_PATH));
 
   //логування, в 'зрозумілому' вигляді pino-pretty
   app.use(
