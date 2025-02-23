@@ -119,7 +119,7 @@ export const requestResetPasswordEmail = async (email) => {
     { sub: user._id, email }, //для кого генеруємо токен
     getEnvVar(ENV_VARS.JWT_SECRET), //для генерації підпису токену
     {
-      expiresIn: '15m',
+      expiresIn: '5m',
     }, //термін дії
   );
 
@@ -146,7 +146,7 @@ export const requestResetPasswordEmail = async (email) => {
 };
 
 //ВСТАНОВЛЕННЯ НОВОГО ПАРОЛЮ ЗА ТОКЕНОМ
-export const resetPassword = async ({ password, token }) => {
+export const resetPassword = async ({ password, token }, sessionId) => {
   let payload;
 
   //чи валідний токен, через jwt.verify
@@ -154,9 +154,9 @@ export const resetPassword = async ({ password, token }) => {
     payload = jwt.verify(token, getEnvVar(ENV_VARS.JWT_SECRET));
   } catch (err) {
     console.error(err.message);
-    throw createHttpError(401, 'JWT token is invalid or expired');
+    throw createHttpError(401, 'Token is expired or invalid.');
   }
-  console.log('PAYLOAD', payload);
+  console.log('PAYLOAD', payload); //sub, email, iat, exp
 
   const user = await UserCollection.findById(payload.sub);
   if (!user) {
@@ -170,4 +170,7 @@ export const resetPassword = async ({ password, token }) => {
   await UserCollection.findByIdAndUpdate(user._id, {
     password: hashedPassword,
   });
+
+  //видаляємо поточну сесію користувача
+  logoutUser(sessionId);
 };

@@ -94,19 +94,22 @@ export const requestResetPasswordEmailController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: 'Reset password email was successfully sent!',
+    message: 'Reset password email has been successfully sent.',
     data: {},
   });
 };
 
 //ЗМІНА ПАРОЛЮ ЗА ТОКЕНОМ
 export const resetPasswordController = async (req, res) => {
-  console.log('CONTROLLER///:', req.body);
-  await resetPassword(req.body);
+  const body = req.body;
+  const sessionId = req.cookies.sessionId;
+
+  // await resetPassword(req.body);
+  await resetPassword(body, sessionId);
 
   res.json({
     status: 200,
-    message: 'Password was successfully reset! 👍',
+    message: 'Password has been successfully reset!',
     data: {},
   });
 };

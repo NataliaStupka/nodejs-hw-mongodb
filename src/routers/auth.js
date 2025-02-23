@@ -33,7 +33,7 @@ authRouter.post('/logout', ctrlWrapper(logoutUserController));
 
 //sendEmail to resetPassword
 authRouter.post(
-  '/request-reset-password-email',
+  '/send-reset-email',
   validateBody(requestResetEmailSchema), //потрібен лише email
   ctrlWrapper(requestResetPasswordEmailController),
 );

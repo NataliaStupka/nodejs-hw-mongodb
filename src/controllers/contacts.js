@@ -53,7 +53,7 @@ export const getContactByIdController = async (req, res) => {
   });
 };
 
-//POST
+//POST - create
 export const createContactController = async (req, res) => {
   const contact = await createContact({
     ...req.body, //name, phoneNumber, isFavourite, contactType
@@ -72,7 +72,12 @@ export const patchContactController = async (req, res, next) => {
   const { _id: userId } = req.user; //приналежність
   const { contactId } = req.params;
 
-  const result = await updataContact(contactId, userId, req.body);
+  console.log('req.BODY', req.body);
+
+  const photo = req.file;
+  console.log('FilePhoto', photo);
+
+  const result = await updataContact(contactId, userId, { ...req.body, photo });
 
   console.log('result2', result);
 
