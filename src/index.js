@@ -13,8 +13,11 @@ setupServer();
 // //ініціалізація підключення до бази даних
 // const bootstrap = async () => {
 //   await initMongoConnection(); //підключення до бази даних в MONGODB
-
+//
+// await createDirIfNotExist(TEMP_DIR_PATH);
+// await createDirIfNotExist(UPLOADS_DIR_PATH);
+//
 //   setupServer(); //запуск сервера
 // };
-
-// bootstrap();
+//
+// void bootstrap();

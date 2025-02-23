@@ -11,6 +11,7 @@ import createHttpError from 'http-errors'; //ПОМИЛКА пошуку кон�
 import { parsePaginationParams } from '../utils/parsePaginationParams.js'; //page, perPage
 import { parseSortParams } from '../utils/parseSortParams.js'; //сортування
 import { parseFilters } from '../utils/parseFilterParams.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 //GET_all
 export const getContactsController = async (req, res) => {
@@ -55,9 +56,12 @@ export const getContactByIdController = async (req, res) => {
 
 //POST - create
 export const createContactController = async (req, res) => {
+  const photo = req.file; //збереження фото: fieldname, originalname, path, ...
+
   const contact = await createContact({
     ...req.body, //name, phoneNumber, isFavourite, contactType
     userId: req.user._id, //приналежність до user
+    photo, ////збереження фото
   });
 
   res.status(201).json({
@@ -72,14 +76,9 @@ export const patchContactController = async (req, res, next) => {
   const { _id: userId } = req.user; //приналежність
   const { contactId } = req.params;
 
-  console.log('req.BODY', req.body);
-
-  const photo = req.file;
-  console.log('FilePhoto', photo);
+  const photo = req.file; //збереження фото
 
   const result = await updataContact(contactId, userId, { ...req.body, photo });
-
-  console.log('result2', result);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));

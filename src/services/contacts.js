@@ -71,17 +71,24 @@ export const getContactById = async (contactId, userId) => {
     _id: contactObjectId,
     userId: userObjectId,
   });
-  // console.log('contactId:', contactId); //contactId2: 67b3a61e0f7dafce84477b9e
-  // console.log('userId:', userId); //userId2: new ObjectId('67b39e9a75a34394c3abb635')
 
   return contact;
 };
 
 //POST    //payload: name, phoneNumber, isFavourite, contactType, userId
 export const createContact = async (payload) => {
-  console.log('1ser-post-payload!', payload);
+  console.log('1ser-post-payload!', payload); //all data
 
-  const contact = await ContactCollection.create({ ...payload });
+  let photoUrl; //посилання на фото
+  if (payload.photo) {
+    photoUrl = await saveFile(payload.photo); //зберігає локально/cloudinary, залежно від змінної оточення
+  }
+
+  const contact = await ContactCollection.create({
+    ...payload,
+    ...(photoUrl ? { photoUrl } : {}),
+  });
+
   return contact;
 };
 

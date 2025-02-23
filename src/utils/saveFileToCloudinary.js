@@ -17,7 +17,6 @@ cloudinary.config({
 export const saveFileToCloudinary = async (file) => {
   try {
     const response = await cloudinary.v2.uploader.upload(file.path);
-    console.log('Cloud resp:', response);
 
     return response.secure_url;
   } catch (err) {

@@ -29,7 +29,7 @@ contactsRouter.get('/:contactId', ctrlWrapper(getContactByIdController));
 // POST
 contactsRouter.post(
   '/',
-  // upload.single('photo'), //завантажування фото ????
+  upload.single('photo'), //завантажування фото
   validateBody(createContactSchema), //валідація
   ctrlWrapper(createContactController),
 );

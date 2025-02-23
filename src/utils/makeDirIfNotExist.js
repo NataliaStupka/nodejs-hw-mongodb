@@ -1,6 +1,7 @@
-//при запуску застосунку створює папку якщо вона не існує
+//папку назвати createDirIfNotExist
+//при запуску застосунку перевіряє чи існує папка, як ні - створює папку
 
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 export const createDirIfNotExist = async (path) => {
   try {
