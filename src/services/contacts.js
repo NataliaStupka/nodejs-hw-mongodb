@@ -1,5 +1,7 @@
 import { ContactCollection } from '../db/models/contacts.js';
 import { Types } from 'mongoose';
+//зберігання зображення
+import { saveFile } from '../utils/saveFile.js';
 
 //розрахунок, pagination
 const createPaginationMetadata = (page, perPage, count) => {
@@ -87,14 +89,21 @@ export const createContact = async (payload) => {
 export const updataContact = async (
   contactId,
   userId,
-  payload,
+  { photo, ...payload },
   options = {},
 ) => {
-  // const contactObjectId = new Types.ObjectId(contactId);
-  // const userObjectId = new Types.ObjectId(userId);
+  let photoUrl; //посилання на фото
+  //зберігання фото
+  if (photo) {
+    photoUrl = await saveFile(photo); //зберігає локально/cloudinary, залежно від змінної оточення
+  }
+
   const rawResult = await ContactCollection.findOneAndUpdate(
     { _id: contactId, userId }, //_id - стандартне ім'я для первинного ключа
-    payload, // Оновлені дані
+    {
+      ...payload,
+      ...(photoUrl ? { photoUrl } : {}),
+    }, // Оновлені дані, payload і якщо photoUrl то photoUrl
     {
       new: true, //поверне оновлений документ (після оновлення).
       includeResultMetadata: true,
