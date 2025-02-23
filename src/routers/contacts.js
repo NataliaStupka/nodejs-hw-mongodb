@@ -21,7 +21,6 @@ const contactsRouter = Router();
 contactsRouter.use('/', authentificate); //аунтефікація (без авторизації)
 
 contactsRouter.use('/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
-//contactsRouter.use('/contacts/:contactId', validateMongoId('contactId')); //відпрацює скрізь де є шлях /:contactId
 
 //контролер у роуті
 contactsRouter.get('/', ctrlWrapper(getContactsController));
