@@ -1,3 +1,5 @@
+//send a letter
+
 import nodemailer from 'nodemailer'; //надсилання листів.
 import createHttpError from 'http-errors';
 import { getEnvVar } from './getEnvVar.js'; //зчитування змінних оточення
@@ -25,6 +27,9 @@ export const sendEmail = async (options) => {
     });
   } catch (err) {
     console.error(err);
-    return createHttpError(500, 'Failed to send an email');
+    return createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
   }
 };
