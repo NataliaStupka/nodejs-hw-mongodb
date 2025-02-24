@@ -126,7 +126,7 @@ export const requestResetPasswordEmail = async (email) => {
   //шлях - посилання/назва?токен
   const resetPasswordLink = `${getEnvVar(
     ENV_VARS.FRONTEND_DOMAIN,
-  )}/reset-password?token=${token}`;
+  )}/reset-pwd?token=${token}`;
 
   //шаблон
   const template = Handlebars.compile(resetEmailTemplate);

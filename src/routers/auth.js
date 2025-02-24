@@ -40,7 +40,7 @@ authRouter.post(
 
 //зміна паролю за токеном
 authRouter.post(
-  '/reset-password',
+  '/reset-pwd',
   validateBody(resetPasswordValidationSchema), //password, token
   ctrlWrapper(resetPasswordController),
 );
