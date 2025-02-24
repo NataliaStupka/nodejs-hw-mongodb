@@ -9,7 +9,7 @@ export const createContactSchema = Joi.object({
   //phoneNumber: Joi.number().integer().min(6).max(16).required(),
   phoneNumber: Joi.string().min(6).max(16).required(),
   email: Joi.string().min(3).max(20), //.required()
-  isFavourite: Joi.string(),
+  isFavourite: Joi.boolean(), //Joi.boolean().truthy('true').falsy('false')
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
 
   //для авторизації (винести в окрему функцію)
