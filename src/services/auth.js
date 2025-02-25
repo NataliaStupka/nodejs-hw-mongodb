@@ -156,7 +156,7 @@ export const resetPassword = async ({ password, token }, sessionId) => {
     console.error(err.message);
     throw createHttpError(401, 'Token is expired or invalid.');
   }
-  console.log('PAYLOAD', payload); //sub, email, iat, exp
+  // console.log('PAYLOAD', payload); //sub, email, iat, exp
 
   const user = await UserCollection.findById(payload.sub);
   if (!user) {

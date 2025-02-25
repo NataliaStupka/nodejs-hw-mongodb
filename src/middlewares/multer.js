@@ -7,7 +7,7 @@ import { TEMP_DIR_PATH } from '../constants/path.js'; // src/temp;
 const storage = multer.diskStorage({
   //визначення місця куди зберігаємо файли
   destination: function (req, file, cb) {
-    console.log('FILE:', file); //fieldname, originalname, encoding, mimetype
+    // console.log('FILE:', file); //fieldname, originalname, encoding, mimetype
     cb(null, TEMP_DIR_PATH); //куди зберігаємо //null - якщо буде помилка, TEMP_DIR_PATH - якщо результат виконання
   },
   //як будуть називатися

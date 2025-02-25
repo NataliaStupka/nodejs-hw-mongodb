@@ -11,7 +11,7 @@ import createHttpError from 'http-errors'; //ПОМИЛКА пошуку кон�
 import { parsePaginationParams } from '../utils/parsePaginationParams.js'; //page, perPage
 import { parseSortParams } from '../utils/parseSortParams.js'; //сортування
 import { parseFilters } from '../utils/parseFilterParams.js';
-import { getEnvVar } from '../utils/getEnvVar.js';
+// import { getEnvVar } from '../utils/getEnvVar.js';
 
 //GET_all
 export const getContactsController = async (req, res) => {
@@ -57,7 +57,7 @@ export const getContactByIdController = async (req, res) => {
 //POST - create
 export const createContactController = async (req, res) => {
   const photo = req.file; //збереження фото: fieldname, originalname, path, ...
-
+  // console.log('======= ', photo);
   const contact = await createContact({
     ...req.body, //name, phoneNumber, isFavourite, contactType
     userId: req.user._id, //приналежність до user

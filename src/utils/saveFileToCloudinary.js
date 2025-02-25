@@ -15,15 +15,16 @@ cloudinary.config({
 
 //приймає файл і повертають шлях
 export const saveFileToCloudinary = async (file) => {
+  // console.log('======= Save_File-file =', file);
   try {
     const response = await cloudinary.v2.uploader.upload(file.path);
-
+    // console.log('======= response.secure_url =', response.secure_url);
     return response.secure_url;
   } catch (err) {
     console.log(err);
     throw createHttpError(500, 'Failed to upload an image to cloudinary');
   } finally {
-    console.log('File.path_aveFileToCloudinary', file.path);
-    await fs.unlink(file.path); //видаляємо з локального місця
+    console.log('File.path_aveFileToCloudinary:', file.path);
+    await fs.unlink(file.path); //видаляємо з temp
   }
 };

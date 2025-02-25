@@ -16,3 +16,12 @@ export const saveFile = async (file) => {
 
   throw createHttpError(500, 'No file storage trategy set');
 };
+
+// fieldname: 'photo',
+//   originalname: 'fawn.jpeg',
+//   encoding: '7bit',
+//   mimetype: 'image/jpeg',
+//   destination: '/Users/nataliiastupka/Desktop/GoIt/Nodejs/nodejs-hw-mongodb/temp',
+//   filename: '1740478816238-fawn.jpeg',
+//   path: '/Users/nataliiastupka/Desktop/GoIt/Nodejs/nodejs-hw-mongodb/temp/1740478816238-fawn.jpeg',
+//   size: 63984

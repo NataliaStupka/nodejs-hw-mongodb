@@ -23,7 +23,7 @@ const contactSchema = new Schema(
       required: true,
     },
     //photo
-    photoUrl: { type: String, default: null, required: false },
+    photo: { type: String, default: null, required: false },
   },
   { timestamps: true, versionKey: false }, //timestamps автоматичне створення createdAt та updatedAt
 );

@@ -77,18 +77,19 @@ export const getContactById = async (contactId, userId) => {
 
 //POST    //payload: name, phoneNumber, isFavourite, contactType, userId
 export const createContact = async (payload) => {
-  console.log('1ser-post-payload!', payload); //all data
+  // console.log('==== payload ==', payload); //all data
 
-  let photoUrl; //посилання на фото
+  let photo; //посилання на фото
   if (payload.photo) {
-    photoUrl = await saveFile(payload.photo); //зберігає локально/cloudinary, залежно від змінної оточення
+    photo = await saveFile(payload.photo); //зберігає локально/cloudinary, залежно від змінної оточення
   }
+  // console.log('=== photoUrl = ', photo); //Url
 
   const contact = await ContactCollection.create({
     ...payload,
-    ...(photoUrl ? { photoUrl } : {}),
+    ...(photo ? { photo } : {}),
   });
-
+  // console.log('===CONTACT ==', contact);
   return contact;
 };
 
