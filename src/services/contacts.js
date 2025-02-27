@@ -22,10 +22,10 @@ const createPaginationMetadata = (page, perPage, count) => {
 //GET-all
 export const getContact = async ({
   userId, // приналежність
-  page,
-  perPage,
-  sortBy,
-  sortOrder,
+  page = 1,
+  perPage = 10,
+  sortBy = '_id',
+  sortOrder = 'asc',
   filter,
 }) => {
   //кількість контактів, що 'відступаємо'

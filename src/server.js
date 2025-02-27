@@ -15,6 +15,8 @@ import { errorHandler } from './middlewares/errorHandler.js';
 //cookie
 import cookieParser from 'cookie-parser';
 import { UPLOADS_DIR_PATH } from './constants/path.js';
+//swagger
+import { swaggerDoc } from './middlewares/swagger.js';
 
 // dotenv.config() - використовує глобальний об'єкт process.env
 
@@ -29,6 +31,8 @@ export const setupServer = () => {
 
   //зберігання картинки на сервері
   app.use('/uploads', express.static(UPLOADS_DIR_PATH));
+  //swagger
+  app.use('/api-docs', swaggerDoc());
 
   //логування, в 'зрозумілому' вигляді pino-pretty
   app.use(

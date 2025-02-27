@@ -1,9 +1,55 @@
 розібратися: з помилками, http-errors !!!!!; Mongoose; MongoDB; Promise.all and other
 подивитися про адаптер
 
-<!-- 6 module - hw6-email-and-images -->
+<!-- 7 module - hw7-SWAGER - Документація, login через Google -->
 
-    <!-- 6 module - hw6-email-and-images -->
+    <!-- 7 module - hw7-SWAGER - Документація, login через Google -->
+
+один із пррикладів документації
+
+npm run dev - запуск программи
+🟪 npm run preview-docs - щоб бачити внесені зміни
+
+1.  **Swager** - **Документація**
+    ✅ роботи зі Swagger - бібліотека @redocly/cli
+    🟠 npm i -D @redocly/cli
+2.  ✅ // package.json
+    додат поле scripts в package.json:
+    ////
+    {
+    /_ Інший код файлу _/
+    "scripts": {
+    "build": "npm run build-docs",
+    "build-docs": "redocly bundle docs/openapi.yaml --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs",
+    }
+    }
+    ////
+    - "preview-docs" - писати документацію з hot-reload(відразу бачимо зміни);
+    - build-docs - формувати один файл із розширенням .json за шляхом docs/swagger.json;
+3.  ✅ створити файл redocly.yaml в корені проєкту - щоб працювати з redocly CLI,
+4.  ✅ створити docs/index.html
+5.  ✅ створити docs/openapi.yaml: прописати у поле paths посилання на файл;
+
+6.  ✅ встановити розширення у VSCode Redocly OpenAPI:
+7.  Всю документацію зберігаємо у папці swager -> дві підпапки: components(описи різних сутностей), paths(описи маршрутів). одну операцію в одному файлі
+
+8.  документація GET/POST/GET
+9.  Роут для Swagger UI
+    🟠 npm i swagger-ui-express
+
+- CONST swagger ->
+- функцію swaggerDocs , яка буде повертати нам або роут для swagger, або 500 помилку
+- розміщуємо роут в server.js
+  app.use('/api-docs', swaggerDoc());
+
+10. ✅ npm run build-docs = білд документації в один файл (створе зміст в папці /docs/swagger.json)
+
+- npm run build-docs, потім npm run dev, http://localhost:3000/api-docs і побачити нашу документацію
+
+ <!-- 6 module - hw6-email-and-images -->
+
+        <!-- 6 module - hw6-email-and-images -->
 
 🟡 brevo.com - сервіс для надсилання повідомлень по електронній пошті.
 🟠 Бібліотека **nodemailer** - функціонал надсилання листів.

@@ -8,3 +8,10 @@ export const TEMPLATES_DIR_PATH = path.join(process.cwd(), 'src', 'templates'); 
 //зберігання картинок
 export const TEMP_DIR_PATH = path.join(process.cwd(), 'temp'); // temp, - тимчасово
 export const UPLOADS_DIR_PATH = path.join(process.cwd(), 'uploads'); // uploads,
+
+//swagger
+export const SWAGGER_JSON_PATH = path.join(
+  process.cwd(),
+  'docs',
+  'swagger.json',
+);
